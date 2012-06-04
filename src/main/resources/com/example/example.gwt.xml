@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='example'>
+  <inherits name='com.google.gwt.user.User' />
+  <inherits name='com.google.gwt.i18n.I18N'/>
+  <inherits name='com.google.web.bindery.requestfactory.RequestFactory' /> 
+  <inherits name='com.sencha.gxt.ui.GXT'/>
+  <inherits name="com.sencha.gwt.uibinder.UiBinder" />
+  <inherits name="com.google.gwt.inject.Inject"/>  
+  <entry-point class='com.example.client.example' />
+  <extend-property name="locale" values="es_PE"/>
+
+  <!-- Specify the paths for translatable code                    -->
+  <source path='client' />
+  <source path='shared' />
+
+</module>
