@@ -7,7 +7,6 @@ import com.example.client.Messages;
 import com.example.client.events.SaveEvent;
 import com.example.client.events.SaveEvent.SaveHandler;
 import com.example.client.images.AppImages;
-import com.example.client.util.MyFilterConfig;
 import com.example.shared.proxy.ColaboradorProxy;
 import com.example.shared.service.AppRequestFactory;
 import com.example.shared.service.ColaboradorService;
@@ -135,30 +134,14 @@ public class ColaboradorPanel implements IsWidget {
 			   Receiver<? super PagingLoadResult<ColaboradorProxy>> receiver) {
 			   ColaboradorService cs = factory.colaboradorService();			   
 			   List<SortInfo> sortInfo = createRequestSortInfo(cs, loadConfig.getSortInfo());
-		       List<MyFilterConfig> filterConfig = myCreateRequestFilterConfig(cs, loadConfig.getFilters());
+		       
+			   List<FilterConfig> filterConfig = createRequestFilterConfig(cs, loadConfig.getFilters());
 			   
 			   cs.list(loadConfig.getOffset(), loadConfig.getLimit(), sortInfo, filterConfig).to(receiver);
 			   
 			   cs.fire();    
 			 }
 			 
-			 protected List<MyFilterConfig> myCreateRequestFilterConfig(RequestContext request, List<? extends FilterConfig> original) {
-				    List<MyFilterConfig> sortInfo = new ArrayList<MyFilterConfig>();
-				    
-				    for (int i = 0; i < original.size(); i++) {
-				      FilterConfig originalSortInfo = original.get(i);
-				      
-				      MyFilterConfig reqSortInfo = request.create(MyFilterConfig.class);				      
-				      reqSortInfo.setComparison(originalSortInfo.getComparison());
-				      reqSortInfo.setField(originalSortInfo.getField());
-				      reqSortInfo.setType(originalSortInfo.getType());
-				      reqSortInfo.setValue(originalSortInfo.getValue());
-				      
-				      sortInfo.add(reqSortInfo);
-				    }
-				    
-				    return sortInfo;
-				  }
 			};
 			 
 			loader = new PagingLoader<FilterPagingLoadConfig, PagingLoadResult<ColaboradorProxy>>(proxy){

@@ -2,7 +2,6 @@ package com.example.shared.service;
 
 import java.util.List;
 
-import com.example.client.util.MyFilterConfig;
 import com.example.server.dao.ColaboradorDao;
 import com.example.server.requestfactory.InjectingServiceLocator;
 import com.example.server.resultbean.ColaboradorPagingLoadResultBean;
@@ -18,7 +17,7 @@ import com.sencha.gxt.data.shared.loader.PagingLoadResult;
 
 @Service(value = ColaboradorDao.class, locator = InjectingServiceLocator.class)
 public interface ColaboradorService extends RequestContext {
-	Request<List<ColaboradorProxy>> findAll();
+	//Request<List<ColaboradorProxy>> findAll();
     Request<ColaboradorProxy> persist(ColaboradorProxy colaborador);
     Request<Void> remove(ColaboradorProxy colaborador);
     
@@ -27,5 +26,5 @@ public interface ColaboradorService extends RequestContext {
         public List<ColaboradorProxy> getData();
     }
      
-    Request<ColaboradorPagingLoadResultProxy> list(int offset, int limit, List<? extends SortInfo> sortInfo, List<? extends MyFilterConfig> filterConfig);
+    Request<ColaboradorPagingLoadResultProxy> list(int offset, int limit, List<? extends SortInfo> sortInfo, List<? extends FilterConfig> filterConfig);
 }
