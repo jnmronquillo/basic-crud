@@ -8,6 +8,7 @@
     xmlns:grid="urn:import:com.sencha.gxt.widget.core.client.grid" >
      
     <ui:with type="com.example.client.images.AppImages" field="images" />
+    <ui:with type="com.example.client.Messages" field="messages" />
      
     <ui:with type="com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData" field="verticalLayoutData">
      <ui:attributes width="1" height="-1" />
@@ -24,15 +25,15 @@
       }      
     </ui:style>
     <g:VerticalPanel spacing="10">
-      <gxt:FramedPanel ui:field="panel" collapsible="true" headingText="RequestFactory Grid Example" pixelSize="550, 300">
+      <gxt:FramedPanel ui:field="panel" collapsible="true" headingText="{messages.titlePanel}" pixelSize="550, 300">
         <container:VerticalLayoutContainer borders="true" addStyleNames="{style.background}">
           <container:child layoutData="{verticalLayoutData}">
             <toolbar:ToolBar>
-              <button:TextButton text="Add" ui:field="add" icon="{images.add}" />
+              <button:TextButton text="{messages.add}" ui:field="add" icon="{images.add}" />
               <toolbar:SeparatorToolItem />
-              <button:TextButton text="Edit" ui:field="edit" icon="{images.update}" enabled="false" />
+              <button:TextButton text="{messages.edit}" ui:field="edit" icon="{images.update}" enabled="false" />
               <toolbar:SeparatorToolItem />
-              <button:TextButton text="Delete" ui:field="delete" icon="{images.delete}" enabled="false" />
+              <button:TextButton text="{messages.delete}" ui:field="delete" icon="{images.delete}" enabled="false" />
               <toolbar:FillToolItem />
             </toolbar:ToolBar>
           </container:child>

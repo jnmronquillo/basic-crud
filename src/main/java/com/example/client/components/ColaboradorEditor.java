@@ -1,8 +1,6 @@
 package com.example.client.components;
 
-import com.example.client.Messages;
 import com.example.client.events.SaveEvent;
-import com.example.client.images.AppImages;
 import com.example.shared.proxy.ColaboradorProxy;
 import com.google.gwt.editor.client.Editor;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -22,9 +20,6 @@ public class ColaboradorEditor implements Editor<ColaboradorProxy> {
 
 	public interface Binder extends UiBinder<Widget, ColaboradorEditor> {
 	}
-	
-	@Inject AppImages images;
-	@Inject Messages messages;
 	
 	@UiField
 	FramedPanel form;
@@ -56,7 +51,6 @@ public class ColaboradorEditor implements Editor<ColaboradorProxy> {
 	 
 	@UiHandler("save")
 	public void onSave(SelectEvent event){
-		System.out.println("e "+apellidos.getValue());
 		eventBus.fireEvent(new SaveEvent());
 	}
 	 

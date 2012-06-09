@@ -6,7 +6,6 @@ import java.util.List;
 import com.example.client.Messages;
 import com.example.client.events.SaveEvent;
 import com.example.client.events.SaveEvent.SaveHandler;
-import com.example.client.images.AppImages;
 import com.example.shared.proxy.ColaboradorProxy;
 import com.example.shared.service.AppRequestFactory;
 import com.example.shared.service.ColaboradorService;
@@ -83,7 +82,6 @@ public class ColaboradorPanel implements IsWidget {
 		}
 	};
 	
-	@Inject AppImages images;
 	@Inject Messages messages;
 	
 	private ColaboradorProxy colaborador;
@@ -159,9 +157,9 @@ public class ColaboradorPanel implements IsWidget {
 			final CheckBoxSelectionModel<ColaboradorProxy> sm = new CheckBoxSelectionModel<ColaboradorProxy>(identity);
 			sm.setSelectionMode(SelectionMode.MULTI);
 			
-			ColumnConfig<ColaboradorProxy, String> nombresColumn = new ColumnConfig<ColaboradorProxy, String>(props.nombres(), 150, "Nombres");
-			ColumnConfig<ColaboradorProxy, String> apellidosColumn = new ColumnConfig<ColaboradorProxy, String>(props.apellidos(), 150, "Apellidos");
-			ColumnConfig<ColaboradorProxy, Integer> edadColumn = new ColumnConfig<ColaboradorProxy, Integer>(props.edad(), 80, "Edad");
+			ColumnConfig<ColaboradorProxy, String> nombresColumn = new ColumnConfig<ColaboradorProxy, String>(props.nombres(), 150, messages.firstName());
+			ColumnConfig<ColaboradorProxy, String> apellidosColumn = new ColumnConfig<ColaboradorProxy, String>(props.apellidos(), 150, messages.lastName());
+			ColumnConfig<ColaboradorProxy, Integer> edadColumn = new ColumnConfig<ColaboradorProxy, Integer>(props.edad(), 80, messages.age());
 			 
 			List<ColumnConfig<ColaboradorProxy, ?>> l = new ArrayList<ColumnConfig<ColaboradorProxy, ?>>();
 			l.add(sm.getColumn());
@@ -224,13 +222,13 @@ public class ColaboradorPanel implements IsWidget {
 
 		@Override
 		public void onSuccess(ColaboradorProxy response) {
-			Info.display("ExampleRF", "Se guardo correctamente");      
+			Info.display(messages.titlePanel(), messages.saveSuccessful());      
 		    loader.load();
 		}
 	  });
 	  driver.edit(colaborador, cs);
 	  editor.clearFields();
-	  editor.show("Nuevo Colaborador");
+	  editor.show(messages.addColaborador());
 	}
 	 
 	@UiHandler("edit")
@@ -240,7 +238,7 @@ public class ColaboradorPanel implements IsWidget {
 	  cs.persist(colaborador);
 	  driver.edit(colaborador, cs);
 	  editor.clearFields();
-	  editor.show("Editar Colaborador");
+	  editor.show(messages.editColaborador());
 	}
 	 
 	@UiHandler("delete")
@@ -249,11 +247,11 @@ public class ColaboradorPanel implements IsWidget {
 	 
 	 String mensaje;
 	 if(colaboradores.size() == 1)
-	   mensaje = "Esta seguro que desea eliminar al colaborador "+colaboradores.get(0).getNombres()+"?";
+	   mensaje = messages.deleteConfirm(colaboradores.get(0).getNombres());
 	 else
-	   mensaje = "Esta seguro que desea eliminar los registros seleccionados?";
+	   mensaje = messages.deleteAllConfirm();
 	 
-	 ConfirmMessageBox box = new ConfirmMessageBox("ExampleRF", mensaje);
+	 ConfirmMessageBox box = new ConfirmMessageBox(messages.titlePanel(), mensaje);
 	 box.addHideHandler(new HideHandler() {
 	  
 	  public void onHide(HideEvent event) {
@@ -266,7 +264,7 @@ public class ColaboradorPanel implements IsWidget {
 	      
 	     @Override
 	     public void onSuccess(Void response) {
-	      Info.display("ExampleRF", "Se elimino correctamente");
+	      Info.display(messages.titlePanel(), messages.deleteSuccessful());
 	      loader.load();
 	     }
 	    });
