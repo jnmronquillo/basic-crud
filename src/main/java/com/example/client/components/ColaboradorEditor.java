@@ -56,6 +56,7 @@ public class ColaboradorEditor implements Editor<ColaboradorProxy> {
 	 
 	@UiHandler("save")
 	public void onSave(SelectEvent event){
+		System.out.println("e "+apellidos.getValue());
 		eventBus.fireEvent(new SaveEvent());
 	}
 	 

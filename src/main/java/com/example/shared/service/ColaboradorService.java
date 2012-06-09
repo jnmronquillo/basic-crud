@@ -17,9 +17,9 @@ import com.sencha.gxt.data.shared.loader.PagingLoadResult;
 
 @Service(value = ColaboradorDao.class, locator = InjectingServiceLocator.class)
 public interface ColaboradorService extends RequestContext {
-	//Request<List<ColaboradorProxy>> findAll();
+	
     Request<ColaboradorProxy> persist(ColaboradorProxy colaborador);
-    Request<Void> remove(ColaboradorProxy colaborador);
+    Request<Void> remove(List<ColaboradorProxy> colaborador);
     
     @ProxyFor(value = ColaboradorPagingLoadResultBean.class)
     public interface ColaboradorPagingLoadResultProxy extends ValueProxy, PagingLoadResult<ColaboradorProxy> {

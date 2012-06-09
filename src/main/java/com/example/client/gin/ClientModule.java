@@ -30,7 +30,7 @@ public class ClientModule extends AbstractGinModule {
 	@Provides
     @Singleton
     public AppRequestFactory createRequestFactory(EventBus eventBus) {
-		AppRequestFactory factory = GWT.create(AppRequestFactory.class);
+	  AppRequestFactory factory = GWT.create(AppRequestFactory.class);
       factory.initialize(eventBus);
       return factory;
     }

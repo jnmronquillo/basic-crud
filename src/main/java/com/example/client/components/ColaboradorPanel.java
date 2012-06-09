@@ -24,6 +24,7 @@ import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.requestfactory.gwt.client.RequestFactoryEditorDriver;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.RequestContext;
+import com.sencha.gxt.core.client.IdentityValueProvider;
 import com.sencha.gxt.core.client.Style.SelectionMode;
 import com.sencha.gxt.core.client.ValueProvider;
 import com.sencha.gxt.data.shared.ListStore;
@@ -44,6 +45,7 @@ import com.sencha.gxt.widget.core.client.event.HideEvent;
 import com.sencha.gxt.widget.core.client.event.HideEvent.HideHandler;
 import com.sencha.gxt.widget.core.client.event.SelectEvent;
 import com.sencha.gxt.widget.core.client.form.NumberPropertyEditor;
+import com.sencha.gxt.widget.core.client.grid.CheckBoxSelectionModel;
 import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
 import com.sencha.gxt.widget.core.client.grid.ColumnModel;
 import com.sencha.gxt.widget.core.client.grid.Grid;
@@ -76,14 +78,7 @@ public class ColaboradorPanel implements IsWidget {
 		  RequestContext context = driver.flush();
 		  if(!driver.hasErrors()){
 		   editor.hide();
-		   context.fire(new Receiver<Void>() {
-		     
-		    @Override
-		    public void onSuccess(Void response) {
-		     Info.display("ExampleRF", "Se guardo correctamente");      
-		     loader.load();
-		    }
-		   });		   
+		   context.fire();		   
 		  }		  
 		}
 	};
@@ -159,12 +154,17 @@ public class ColaboradorPanel implements IsWidget {
 			toolBar = new PagingToolBar(2);
 			toolBar.bind(loader);
 			toolBar.getElement().getStyle().setProperty("borderBottom", "none");
-			    
+			 
+			IdentityValueProvider<ColaboradorProxy> identity = new IdentityValueProvider<ColaboradorProxy>();
+			final CheckBoxSelectionModel<ColaboradorProxy> sm = new CheckBoxSelectionModel<ColaboradorProxy>(identity);
+			sm.setSelectionMode(SelectionMode.MULTI);
+			
 			ColumnConfig<ColaboradorProxy, String> nombresColumn = new ColumnConfig<ColaboradorProxy, String>(props.nombres(), 150, "Nombres");
 			ColumnConfig<ColaboradorProxy, String> apellidosColumn = new ColumnConfig<ColaboradorProxy, String>(props.apellidos(), 150, "Apellidos");
 			ColumnConfig<ColaboradorProxy, Integer> edadColumn = new ColumnConfig<ColaboradorProxy, Integer>(props.edad(), 80, "Edad");
 			 
 			List<ColumnConfig<ColaboradorProxy, ?>> l = new ArrayList<ColumnConfig<ColaboradorProxy, ?>>();
+			l.add(sm.getColumn());
 			l.add(nombresColumn);
 			l.add(apellidosColumn);
 			l.add(edadColumn);
@@ -184,7 +184,8 @@ public class ColaboradorPanel implements IsWidget {
 			};
 			 
 			grid.setLoader(loader);
-			grid.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+			grid.setSelectionModel(sm);		    
+		    grid.getView().setStripeRows(true);
 			
 			GridFilters<ColaboradorProxy> filters = new GridFilters<ColaboradorProxy>(loader);
 		    filters.initPlugin(grid);
@@ -219,7 +220,14 @@ public class ColaboradorPanel implements IsWidget {
 	public void onAdd(SelectEvent event){
 	  ColaboradorService cs = factory.colaboradorService();
 	  colaborador = cs.create(ColaboradorProxy.class);
-	  cs.persist(colaborador);
+	  cs.persist(colaborador).to(new Receiver<ColaboradorProxy>() {
+
+		@Override
+		public void onSuccess(ColaboradorProxy response) {
+			Info.display("ExampleRF", "Se guardo correctamente");      
+		    loader.load();
+		}
+	  });
 	  driver.edit(colaborador, cs);
 	  editor.clearFields();
 	  editor.show("Nuevo Colaborador");
@@ -237,15 +245,24 @@ public class ColaboradorPanel implements IsWidget {
 	 
 	@UiHandler("delete")
 	public void onDelete(SelectEvent event){
-	 ConfirmMessageBox box = new ConfirmMessageBox("ExampleRF", "Esta seguro que desea eliminar?");
+	 List<ColaboradorProxy> colaboradores = grid.getSelectionModel().getSelectedItems();
+	 
+	 String mensaje;
+	 if(colaboradores.size() == 1)
+	   mensaje = "Esta seguro que desea eliminar al colaborador "+colaboradores.get(0).getNombres()+"?";
+	 else
+	   mensaje = "Esta seguro que desea eliminar los registros seleccionados?";
+	 
+	 ConfirmMessageBox box = new ConfirmMessageBox("ExampleRF", mensaje);
 	 box.addHideHandler(new HideHandler() {
 	  
 	  public void onHide(HideEvent event) {
 	   Dialog btn = (Dialog) event.getSource();
 	   if(!"No".equals(btn.getHideButton().getText())){
 		ColaboradorService cs = factory.colaboradorService();
-	    colaborador = grid.getSelectionModel().getSelectedItem();
-	    cs.remove(colaborador).fire(new Receiver<Void>() {
+		List<ColaboradorProxy> colaboradores = grid.getSelectionModel().getSelectedItems();
+		
+	    cs.remove(colaboradores).fire(new Receiver<Void>() {
 	      
 	     @Override
 	     public void onSuccess(Void response) {

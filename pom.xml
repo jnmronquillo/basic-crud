@@ -95,7 +95,7 @@
     <dependency>
   	  <groupId>com.sencha.gxt</groupId>
   	  <artifactId>gxt</artifactId>
-  	  <version>3.0.0</version>
+  	  <version>3.0.0b</version>
 	</dependency>
 	
 	<!-- sencha uibinder support -->

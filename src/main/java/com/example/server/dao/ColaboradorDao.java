@@ -24,16 +24,19 @@ public class ColaboradorDao implements GenericDao<Colaborador> {
 		return entity;
 	}
 
-	@Transactional
-	public void remove(Colaborador entity) {
-		emProvider.get().remove(entity);
-	}
-
 	public ColaboradorPagingLoadResultBean list(int offset, int limit, List<SortInfoBean> sortInfo, List<FilterConfigBean> filterConfig) {
 
 		List<Colaborador> list = pag.paginate(Colaborador.class, offset, limit, sortInfo, filterConfig);
 		Long count = pag.count(Colaborador.class);
 		return new ColaboradorPagingLoadResultBean(list, count.intValue(), offset);
+	}
+
+	@Transactional
+	@Override
+	public void remove(List<Colaborador> entities) {
+		for(Colaborador entity: entities){
+			emProvider.get().remove(entity);
+		}		
 	}
 
 }
