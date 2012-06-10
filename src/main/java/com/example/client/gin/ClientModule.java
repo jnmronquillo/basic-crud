@@ -1,8 +1,6 @@
 package com.example.client.gin;
 
 import com.example.client.Messages;
-import com.example.client.components.ColaboradorEditor;
-import com.example.client.components.ColaboradorPanel;
 import com.example.client.images.AppImages;
 import com.example.shared.service.AppRequestFactory;
 import com.google.gwt.core.client.GWT;
@@ -19,12 +17,7 @@ public class ClientModule extends AbstractGinModule {
 		bind(AppImages.class).in(Singleton.class);
 		bind(Messages.class).in(Singleton.class);
 		
-		bind(EventBus.class).to(SimpleEventBus.class).in(Singleton.class);
-		
-		bind(ColaboradorPanel.class).in(Singleton.class);
-		bind(ColaboradorEditor.class).in(Singleton.class);
-		
-		
+		bind(EventBus.class).to(SimpleEventBus.class).in(Singleton.class);		
 	}
 	
 	@Provides
