@@ -18,7 +18,7 @@
    font-weight: bold;
   }
  </ui:style>
-  <gxt:Window buttonAlign="END" resizable="false" >
+  <gxt:Window buttonAlign="END" resizable="false" minHeight="204" >
    <gxt:FramedPanel ui:field="form" headerVisible="false" >
      <form:FieldSet ui:field="fieldSet" headingText="{messages.infoUser}" collapsible="false"  >
        <container:VerticalLayoutContainer>

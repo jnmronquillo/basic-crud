@@ -20,14 +20,7 @@ public class MyGuiceServletConfig extends GuiceServletContextListener {
 				
 				install(new JpaPersistModule("myFirstJpaUnit"));  // like we saw earlier.
 
-			    filter("/*").through(PersistFilter.class);
-				
-			 // RequestFactory servlet
-//				Map<String, String> params = new HashMap<String, String>();
-//                params.put("symbolMapsDirectory", "WEB-INF/classes/symbolMaps/");
-//                
-//				bind(RequestFactoryServlet.class).in(Singleton.class);
-//				serve("/gwtRequest").with(RequestFactoryServlet.class, params);
+			    filter("/*").through(PersistFilter.class);			 
 			    
 			    install(new InjectedRequestFactoryModule());
 			    serve("/gwtRequest").with(InjectedRequestFactoryServlet.class);

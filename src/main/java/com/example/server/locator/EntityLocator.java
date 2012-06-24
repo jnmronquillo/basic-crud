@@ -9,7 +9,7 @@ import com.google.inject.Provider;
 import com.google.web.bindery.requestfactory.shared.Locator;
 
 /**
- * Generic @Locator for objects that extend DatastoreObject
+ * Generic @Locator for objects that extend EntityBase
  */
 public class EntityLocator extends Locator<EntityBase, Long> {
 
