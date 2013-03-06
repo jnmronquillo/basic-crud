@@ -65,5 +65,5 @@ public class ColaboradorEditor implements Editor<ColaboradorProxy> {
 	 
 	public void hide() {
 		panel.hide();
-	}	
+	}
 }

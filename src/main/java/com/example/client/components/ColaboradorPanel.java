@@ -131,7 +131,6 @@ public class ColaboradorPanel implements IsWidget {
 			   List<FilterConfig> filterConfig = createRequestFilterConfig(cs, loadConfig.getFilters());
 			   
 			   cs.list(loadConfig.getOffset(), loadConfig.getLimit(), sortInfo, filterConfig).to(receiver);
-			   
 			   cs.fire();    
 			 }
 			 

@@ -95,7 +95,7 @@
     <dependency>
   	  <groupId>com.sencha.gxt</groupId>
   	  <artifactId>gxt</artifactId>
-  	  <version>3.0.0b</version>
+  	  <version>3.0.1</version>
 	</dependency>
 	
 	<!-- sencha uibinder support -->
@@ -166,6 +166,27 @@
 	  <artifactId>postgresql</artifactId>
 	  <version>9.1-901-1.jdbc4</version>
 	</dependency>
+	
+	<!-- required for gxt processors -->
+    <dependency>
+      <groupId>org.apache.velocity</groupId>
+      <artifactId>velocity</artifactId>
+      <version>1.7</version>
+    </dependency>
+    
+	<!--  gxt processors -->
+    <dependency>
+      <groupId>com.rhemsolutions</groupId>
+      <artifactId>gxt-processors</artifactId>
+      <version>1.0</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.hibernate</groupId>
+          <artifactId>hibernate-entitymanager</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    
   </dependencies>
 
   <build>
@@ -193,6 +214,15 @@
             </goals>
             <phase>generate-sources</phase>
             <configuration>
+            	<processors>   
+<!--             	  <processor>org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor</processor> -->
+                  <processor>com.google.web.bindery.requestfactory.apt.RfValidator</processor>               
+                  <processor>com.rhemsolutions.processors.ResultBeanListProcessor</processor>
+                  <processor>com.rhemsolutions.processors.ResultBeanPagingProcessor</processor>
+                  <processor>com.rhemsolutions.processors.ResultProxyListProcessor</processor>
+                  <processor>com.rhemsolutions.processors.ResultProxyPagingProcessor</processor>
+                  <processor>com.rhemsolutions.processors.ServiceListProcessor</processor>
+                </processors>
                 <outputDirectory>${project.build.directory}/generated-sources/gwt</outputDirectory>
             </configuration>
           </execution>
